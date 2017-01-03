@@ -8,7 +8,7 @@ $(function(){
 function QfDate(){
   var _this=this;
   var qfdateMain,qfdateMask,qfdateCancelBtn,qfdateOkBtn,qfdateYearScroll,qfdateMonthScroll,qfdateDayScroll;
-  var startYear=1900;//起始年份
+  var startYear=1900;
   var curOpt=null;
   var yData=[],mData=[],dData=[];
 
@@ -22,9 +22,9 @@ function QfDate(){
     	'<div class="qfdateTitle_title" style="display: inline-block;line-height:35px;padding: 0 20px;">选择日期</div>'+
     	'<div class="qfdateOkBtn" style="display: inline-block;line-height:35px;padding: 0 20px;float: right;">确定</div>'+
     	'</div>'+
-    	'<div class="qfscroll qfdateYearScroll"></div>'+
-    	'<div class="qfscroll qfdateMonthScroll"></div>'+
-    	'<div class="qfscroll qfdateDayScroll"></div>'+
+    	'<div class="qfdateYearScroll"></div>'+
+    	'<div class="qfdateMonthScroll"></div>'+
+    	'<div class="qfdateDayScroll"></div>'+
     	'</div>'+
     	'</div>'
     	);
