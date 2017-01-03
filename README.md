@@ -2,10 +2,8 @@
 
 ### Use
 
-``` html
     <input class="qfdate">
 or
-    <button class="qfdate">Select Date</button>
+    <button class="qfdate">Button</button>
 or
-    <div class="qfdate">Select Date</div>
-```
+    <div class="qfdate">Div</div>
