@@ -1,4 +1,5 @@
 # qfdate
+a javascript date picker for mobile devices that uses jquery and file only 9kb 
 
 ### Use
         <script type="text/javascript" src="http://cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
