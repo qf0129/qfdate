@@ -8,7 +8,7 @@ $(function(){
 function QfDate(){
   var _this=this;
   var qfdateMain,qfdateMask,qfdateCancelBtn,qfdateOkBtn,qfdateYearScroll,qfdateMonthScroll,qfdateDayScroll;
-  var startYear=1900;
+  var startYear=1900;//起始年份
   var curOpt=null;
   var yData=[],mData=[],dData=[];
 
@@ -22,9 +22,9 @@ function QfDate(){
     	'<div class="qfdateTitle_title" style="display: inline-block;line-height:35px;padding: 0 20px;">选择日期</div>'+
     	'<div class="qfdateOkBtn" style="display: inline-block;line-height:35px;padding: 0 20px;float: right;">确定</div>'+
     	'</div>'+
-    	'<div class="qfdateYearScroll"></div>'+
-    	'<div class="qfdateMonthScroll"></div>'+
-    	'<div class="qfdateDayScroll"></div>'+
+    	'<div class="qfscroll qfdateYearScroll"></div>'+
+    	'<div class="qfscroll qfdateMonthScroll"></div>'+
+    	'<div class="qfscroll qfdateDayScroll"></div>'+
     	'</div>'+
     	'</div>'
     	);
@@ -117,13 +117,12 @@ function QfDate(){
     		dData[i]=i+1;
     	};
     	qfdateDayScroll.setData(dData,nowD);
-
       var inputValue=curOpt.val();
-      if (inputValue!='') {
-        var dateValues=inputValue.split('-');
-        qfdateYearScroll.setData(yData,dateValues[0]-startYear);
-      	qfdateMonthScroll.setData(mData,dateValues[1]-1);
-      	qfdateDayScroll.setData(dData,dateValues[2]-1);
+      if (isdate(inputValue)) {
+            var dateValues=inputValue.split('-');
+            qfdateYearScroll.setData(yData,dateValues[0]-startYear);
+            qfdateMonthScroll.setData(mData,dateValues[1]-1);
+            qfdateDayScroll.setData(dData,dateValues[2]-1);
       }
     	qfdateMain.show();
   };
@@ -131,7 +130,7 @@ function QfDate(){
 
 function QfScroll(divOpt){
   var _this=this;
-  var range=5;//多少像素移动一格,值越大速度越慢
+  var range=5;
   var curIndex=0;
   var curData=[];
   var todo=function(){};
@@ -337,4 +336,11 @@ function getMousePos(event) {
 	var x = e.pageX || e.clientX + scrollX;
 	var y = e.pageY || e.clientY + scrollY;
 	return { 'x': x, 'y': y };
+};
+
+function isdate(str){
+    var result=str.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+    if(result==null) return false;
+    var d=new Date(result[1], result[3]-1, result[4]);
+    return (d.getFullYear()==result[1] && d.getMonth()+1==result[3] && d.getDate()==result[4]);
 };
