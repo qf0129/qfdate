@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <script type="text/javascript" src="http://cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
+    <style type="text/css">
+    .scrollContainer {
+        background: red;
+        display: inline-block;
+        min-width: 100px;
+        height: 400px;
+        overflow: hidden;
+        position: relative;
+        z-index: 0;
+    }
+    
+    .dataPanel {
+        text-align: center;
+        position: absolute;
+        display: inline-block;
+        background: blue;
+        opacity: 0.8;
+        min-width: 100px;
+        top: 0;
+        left: 0;
+        z-index: 80;
+    }
+    
+    .dataPanel .dataBar {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+        margin: auto 0;
+        border: 1px solid yellow;
+    }
+    
+    .selectBar {
+        position: absolute;
+        top: 40%;
+        left: 0;
+        width: 100%;
+        height: 20%;
+        border-top: 3px solid #fff;
+        border-bottom: 3px solid #fff;
+        z-index: 50;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="scrollContainer">
+        <div class="dataPanel"></div>
+        <div class="selectPanel">
+        </div>
+        <div class="selectBar"></div>
+    </div>
+<div class="tip"></div>
+</body>
+<script type="text/javascript">
+
+document.querySelector('body').addEventListener('touchstart', function (ev) {
+    event.preventDefault();
+});
+
+
+var scrollContainer = $('.scrollContainer');
+var dataPanel = $('.dataPanel');
+var selectPanel = $('.selectPanel');
+var tip = $('.tip');
+
+for (var i = 0; i < 10; i++) {
+    dataPanel.append('<div class="dataBar">item' + i + '</div>');
+}
+
+
+
+var dataBar = $('.dataBar');
+dataBar.height(scrollContainer.height() / 5);
+dataBar.css('line-height',scrollContainer.height() / 5+'px')
+selectPanel.height(scrollContainer.height() / 5);
+
+var touchEvents = {
+    start: "touchstart",
+    move: "touchmove",
+    end: "touchend",
+    leave: "mouseleave",
+    init: function() {
+        if (isPC()) {
+            this.start = "mousedown";
+            this.move = "mousemove";
+            this.end = "mouseup";
+        }
+    }
+};
+
+touchEvents.init();
+
+dataPanel.bind(touchEvents.start, function(event) {
+    event.preventDefault();
+    var startY = getMousePos(event).y;
+    var endY = 0;
+    var lastY = getMousePos(event).y;
+    var subY = 0;
+    var topValue = 0
+    var bottomValue = 0
+    var scrollHeight = scrollContainer.height();
+    // var time1 = new Date().getTime();
+    // var time2 = 0;
+    dataPanel.bind(touchEvents.move, function(event) {
+        event.preventDefault();
+
+        endY = getMousePos(event).y;
+
+        subY = endY - startY;
+
+        topValue = dataPanel.position().top;
+        bottomValue = Number(dataPanel.css('bottom').replace('px',''));
+
+        console.log(scrollHeight/5 * (dataPanel.children().length - 3));
+
+        tip.html('startY:' + startY + ' endY:' + endY + ' lastY:' + lastY + ' subY:' + subY + ' topValue:' + topValue +' bottomValue:'+ bottomValue +' scrollHeight:' + scrollHeight);
+
+
+        if (subY > 0) {
+            if (topValue >= scrollHeight * 4 / 10) {
+                return;
+            };
+
+        };
+
+        if (subY < 0) {
+            if (topValue <= - scrollHeight/5 * (dataPanel.children().length - 3)) {
+                return;
+            };
+        };
+
+        dataPanel.css('top', (topValue + subY/5));
+
+        lastY = endY;
+
+    });
+
+    dataPanel.bind(touchEvents.end, function(event) {
+        event.preventDefault();
+        dataPanel.unbind(touchEvents.move);
+        dataPanel.unbind(touchEvents.end);
+        dataPanel.unbind(touchEvents.leave);
+    });
+
+    dataPanel.bind(touchEvents.leave, function(event) {
+        event.preventDefault();
+        dataPanel.unbind(touchEvents.move);
+        dataPanel.unbind(touchEvents.end);
+        dataPanel.unbind(touchEvents.leave);
+    });
+
+});
+
+
+
+function isPC() {
+    var userAgentInfo = navigator.userAgent;
+    var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
+    var flag = true;
+    for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+            flag = false;
+            break;
+        }
+    }
+    return flag;
+};
+
+function getMousePos(event) {
+    var e = event || window.event;
+    var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+    var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+    var x = e.pageX || e.clientX + scrollX;
+    var y = e.pageY || e.clientY + scrollY;
+    return {
+        'x': x,
+        'y': y
+    };
+};
+</script>
+
+</html>
