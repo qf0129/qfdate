@@ -11,7 +11,7 @@
         background: red;
         display: inline-block;
         min-width: 100px;
-        height: 400px;
+        height: 200px;
         overflow: hidden;
         position: relative;
         z-index: 0;
@@ -34,7 +34,6 @@
         -webkit-user-select: none;
         user-select: none;
         margin: auto 0;
-        border: 1px solid yellow;
     }
     
     .selectBar {
@@ -71,10 +70,17 @@ var dataPanel = $('.dataPanel');
 var selectPanel = $('.selectPanel');
 var tip = $('.tip');
 
+var scrollHeight = scrollContainer.height();
+var oneHeight = scrollHeight/5;
+
+var baseData = [];
 for (var i = 0; i < 10; i++) {
-    dataPanel.append('<div class="dataBar">item' + i + '</div>');
+    baseData[i] = i;
 }
 
+for (var i = 0; i < baseData.length; i++) {
+    dataPanel.append('<div class="dataBar">' + baseData[i] + '</div>');
+}
 
 
 var dataBar = $('.dataBar');
@@ -98,17 +104,19 @@ var touchEvents = {
 
 touchEvents.init();
 
+
 dataPanel.bind(touchEvents.start, function(event) {
     event.preventDefault();
     var startY = getMousePos(event).y;
     var endY = 0;
     var lastY = getMousePos(event).y;
     var subY = 0;
-    var topValue = 0
-    var bottomValue = 0
-    var scrollHeight = scrollContainer.height();
-    // var time1 = new Date().getTime();
-    // var time2 = 0;
+    var topValue = 0;
+    var bottomValue = 0;
+    var time1 = new Date().getTime();
+    var time2 = 0;
+
+    var range =5;
     dataPanel.bind(touchEvents.move, function(event) {
         event.preventDefault();
 
@@ -121,23 +129,16 @@ dataPanel.bind(touchEvents.start, function(event) {
 
         console.log(scrollHeight/5 * (dataPanel.children().length - 3));
 
-        tip.html('startY:' + startY + ' endY:' + endY + ' lastY:' + lastY + ' subY:' + subY + ' topValue:' + topValue +' bottomValue:'+ bottomValue +' scrollHeight:' + scrollHeight);
+        tip.html('startY:' + startY + ' endY:' + endY + ' lastY:' + lastY + ' subY:' + subY + ' topValue:' + topValue +' bottomValue:'+ bottomValue +' scrollHeight:' + scrollHeight +' oneHeight:'+oneHeight);
 
 
         if (subY > 0) {
-            if (topValue >= scrollHeight * 4 / 10) {
-                return;
-            };
-
+        setTop(topValue +range);
         };
 
         if (subY < 0) {
-            if (topValue <= - scrollHeight/5 * (dataPanel.children().length - 3)) {
-                return;
-            };
+        setTop(topValue -range);
         };
-        dataPanel.animate({top:'+='+subY/5+'px'},50);
-        // dataPanel.css('top', (topValue + subY/5));
 
         lastY = endY;
 
@@ -148,6 +149,30 @@ dataPanel.bind(touchEvents.start, function(event) {
         dataPanel.unbind(touchEvents.move);
         dataPanel.unbind(touchEvents.end);
         dataPanel.unbind(touchEvents.leave);
+
+            if(topValue>=0){
+                if ((topValue%oneHeight)<=(oneHeight/2)) {
+                    index = -parseInt(topValue/oneHeight)+2;
+                }else{
+                    index = -parseInt(topValue/oneHeight)+1;
+                };
+                if (topValue >= oneHeight * 2) {
+                    index = 0;
+                };
+            }else{
+                if ((-topValue%oneHeight)<=(oneHeight/2)) {
+                    index = parseInt(-topValue/oneHeight)+2;
+                }else{
+                    index = parseInt(-topValue/oneHeight)+3;
+                };
+            if (topValue <= - oneHeight * (baseData.length - 3)) {
+                index = baseData.length-1;
+            };
+
+            };
+
+                selectIndex(index);
+
     });
 
     dataPanel.bind(touchEvents.leave, function(event) {
@@ -159,7 +184,14 @@ dataPanel.bind(touchEvents.start, function(event) {
 
 });
 
+function selectIndex(index){
+        var val=oneHeight * 2 - index*oneHeight;
+        setTop(val);
+};
 
+function setTop(value){
+        dataPanel.css('top',value);
+};
 
 function isPC() {
     var userAgentInfo = navigator.userAgent;
