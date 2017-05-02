@@ -136,8 +136,8 @@ dataPanel.bind(touchEvents.start, function(event) {
                 return;
             };
         };
-
-        dataPanel.css('top', (topValue + subY/5));
+        dataPanel.animate({top:'+='+subY/5+'px'},50);
+        // dataPanel.css('top', (topValue + subY/5));
 
         lastY = endY;
 
