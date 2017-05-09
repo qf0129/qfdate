@@ -5,11 +5,11 @@ a javascript date picker for mobile devices that uses jquery and file only 9kb
         <script type="text/javascript" src="http://cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
         <script type="text/javascript" src="qfdate.js"></script>
 
-        <input class="qfdate">
+        <input class="qfDate">
         <!-- or -->
-        <button class="qfdate">Button</button>
+        <button class="qfDate">Button</button>
         <!-- or -->
-        <div class="qfdate">Div</div>
+        <div class="qfDate">Div</div>
         
 ### Preview
 ![image](https://github.com/qf0129/qfdate/blob/master/test.jpg)
