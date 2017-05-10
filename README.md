@@ -12,4 +12,4 @@ a javascript date picker for mobile devices that uses jquery and file only 9kb
         <div class="qfDate">Div</div>
         
 ### Preview
-![image](https://github.com/qf0129/qfdate/blob/master/test.jpg)
+![image](https://github.com/qf0129/qfdate/blob/master/example.jpg)
