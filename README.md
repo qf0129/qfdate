@@ -1,7 +1,6 @@
-# qfdate
-a javascript date picker for mobile devices that uses jquery and file only 9kb 
+### 一个使用jquery的移动端日期选择器，文件9kb
 
-### Use
+### 使用方法
         <script type="text/javascript" src="http://cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
         <script type="text/javascript" src="qfdate.js"></script>
 
@@ -11,5 +10,5 @@ a javascript date picker for mobile devices that uses jquery and file only 9kb
         <!-- or -->
         <div class="qfDate">Div</div>
         
-### Preview
+### 预览图
 ![image](https://github.com/qf0129/qfdate/blob/master/example.jpg)
