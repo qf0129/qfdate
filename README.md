@@ -1,4 +1,3 @@
-### 一个使用jquery的移动端日期选择器，文件9kb
 
 ### 使用方法
         <script type="text/javascript" src="http://cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
